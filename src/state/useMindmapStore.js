@@ -1,12 +1,12 @@
 import { create } from "zustand";
 
 export const useMindmapStore = create((set) => ({
-  nodes: [{ id: "1", label: "Root Node", x: 100, y: 100 }],
-  links: [], // Add dummy links for placeholder
+  nodes: [],
+  links: [], // Parent → child
   selectedNodeId: null,
 
   // Actions
   selectNode: (id) => set({ selectedNodeId: id }),
-  setNodes: (nodes) => set({ nodes }),
-  setLinks: (links) => set({ links }), 
+  setNodes: (newNodes) => set({ nodes: newNodes }),
+  setLinks: (newLinks) => set({ links: newLinks }), 
 }));
