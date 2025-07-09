@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useMindmapStore } from "../state/useMindmapStore";
 import { fetchMindmap } from "../utils/apiClient";
+import { CanvasRenderer } from "../components/CanvasRenderer";
 
 export default function Canvas() {
     // 👉 Get nodes, links, and actions from Zustand store
@@ -8,13 +9,13 @@ export default function Canvas() {
     const links = useMindmapStore((state) => state.links);
     const setNodes = useMindmapStore((state) => state.setNodes);
     const setLinks = useMindmapStore((state) => state.setLinks);    
-    const selectNode = useMindmapStore((state) => state.selectNode); // Allow selecting a node
+    const selectNode = useMindmapStore((state) => state.selectNode);
 
     useEffect(() => {
         async function loadMindmap() {
             const { nodes: fetchedNodes, links: fetchedLinks } = await fetchMindmap();
             setNodes(fetchedNodes);
-            setLinks(fetchedLinks);            
+            setLinks(fetchedLinks);
         }
         loadMindmap();
     }, [setNodes, setLinks]);
@@ -24,6 +25,11 @@ export default function Canvas() {
             <h1 className="text-3xl font-bold text-blue-600 mb-4">Hello Mindmap 👋</h1>
             <p className="text-gray-700 mb-2">Nodes loaded: {nodes.length}</p>
             <p className="text-gray-700 mb-4">Links loaded: {links.length}</p>
+
+            {/* 🌱 Render the canvas visualization */}
+            <div className="w-full h-[600px] mb-4">
+                <CanvasRenderer />
+            </div>
 
             <button
                 className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
